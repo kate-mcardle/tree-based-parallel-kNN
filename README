@@ -1,0 +1,39 @@
+Instructions to run kNN graph construction code.
+
+1. src-balltree 
+   Contains the source code for kNN using ball trees in C++ and OpenMP.
+   To compile, type ‘make’ and to run type ‘make run’.
+   The parameters to the source code are.
+   ./balltree <num_instances> <dimension> <path_to_file> <threads> <leaf_size>
+   ex : ./balltree 10000 784 data/mnist-test.dat 16 30
+
+2. src-kdtree
+   Contains the source code for kNN using k-d trees in C++ and OpenMP.
+   To compile, type ‘make’ and to run type ‘make run’.
+   The parameters to the source code are.
+   ./test <num_instances> <dimension> <path_to_file> <threads> 
+   ex : ./test 10000 784 data/mnist-test.dat 16
+
+3. src_kd_galois
+   Contains the source code for kNN using k-d trees in Galois.
+   To use:
+ * 	- Initial setup:
+ * 		- Note: Ensure that your system has: GCC 4.7 or later; cmake; boost
+ * 		- Create a directory (eg 'kdtree') in the 'apps' directory found in your Galois directory (eg Galois-2.2.1/apps/kdtree)
+ * 		- Put this file in that new directory
+ * 		- Create a file CMakeLists.txt in that new directory. If your app directory is 'kdtree', the CMakeLists.txt file would look like:
+ * 				if(USE_EXP)
+  				include_directories(../../exp/apps/kdtree .)
+					endif()
+					app(kdtree Galois_KD_tree.cpp)
+ * 		- Add your app directory to the CMakeLists.txt file in the 'apps' directory. If your app directory is 'kdtree', add this line:
+ * 				add_subdirectory(kdtree)
+ * 		- In Galois/build/default, issue a make command. (In the future, if you modify this file and wish to rebuild it, issue: make -C apps/kdtree)
+ * 	- Run on data:
+ * 		Galois/build/default/apps/kdtree/kdtree <path to data> n_dimensions n_data_points k n_threads
+ * 			- Note: this assumes the data file is in a binary double precision format.
+ * 				If it's in another format, see the enum "FileFormat" and make the appropriate change to the read_data call in main.
+   
+
+4. scripts
+   Contains various python scripts to check the accuracy of the obtained kNN graph to brute force approach. It also contains script to run kNN using ball trees and k-d trees in Python using Scikit Learn.
